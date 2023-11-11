@@ -76,7 +76,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
       const json = await response.json();
 
       return {
-        filename: file.filename,
+        filename: file.originalname,
         classification: json.choices[0].message.content,
       };
     })
