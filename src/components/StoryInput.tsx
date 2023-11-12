@@ -68,7 +68,7 @@ const StoryInput: React.FC<StoryInputProps> = ({
                 name="comment"
                 id="comment"
                 className="bg-gray-800 block w-full rounded-md border-0 px-3 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                placeholder="I want a story about Jupiter's storms, a beauitufl space station, and a terrifying black hole."
+                placeholder="I want a story about Jupiter's storms, a beautiful space station, and a terrifying black hole."
                 defaultValue={""}
                 onChange={(e) => setTextPrompt(e.target.value)}
               />
