@@ -115,7 +115,7 @@ const StoryInput: React.FC<StoryInputProps> = ({
           ) : null}
         </button>
         <span className="mt-2 block text-sm font-medium leading-6 text-gray-300">
-          It can take up to 30 seconds to generate your full story!
+          It can take up to 1 minute to generate your full story!
         </span>
       </div>
     </div>
