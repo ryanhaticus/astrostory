@@ -1,3 +1,5 @@
+![A child reading in space](https://i.imgur.com/1Y4a6KG.png)
+
 # AstroStory
 
 Built for SwanHacks 2023 at Iowa State University.
