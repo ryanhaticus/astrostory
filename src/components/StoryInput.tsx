@@ -1,4 +1,3 @@
-// components/StoryInput.tsx
 import React, { useState } from "react";
 
 interface StoryInputProps {
