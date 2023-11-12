@@ -138,7 +138,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
               content: [
                 {
                   type: "text",
-                  text: `Write a complete children's story incorporating the following descriptions in a ${tone} tone. Separate paragraphs with two new lines.`,
+                  text: `Write a complete children's story incorporating the following descriptions in a ${tone} tone. Do not include a title. Separate paragraphs with two new lines.`,
                 },
                 {
                   type: "text",
@@ -173,7 +173,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
               content: [
                 {
                   type: "text",
-                  text: `Write a complete children's story incorporating the following description in a ${tone} tone. Improve the description as well to fit the ${tone} tone. Separate paragraphs with two new lines.`,
+                  text: `Write a complete children's story incorporating the following description in a ${tone} tone. Improve the description as well to fit the ${tone} tone. Do not include a title. Separate paragraphs with two new lines.`,
                 },
                 {
                   type: "text",
@@ -204,7 +204,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
             Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           },
           body: JSON.stringify({
-            prompt: `Do not ever write text on an image. Generate an image based on the following paragraph: ${paragraph}`,
+            prompt: paragraph,
             n: 1,
             size: "1024x1024",
           }),
