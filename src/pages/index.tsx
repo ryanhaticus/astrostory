@@ -1,26 +1,27 @@
-// pages/index.tsx
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import StoryInput from '../components/StoryInput';
 import StoryDisplay from '../components/StoryDisplay';
+import ToneSelection from '../components/ToneSelection'; // Import the ToneSelection component
 
 const Home = () => {
-  // State for storing the text prompt
   const [textPrompt, setTextPrompt] = useState('');
-
-  // State for storing the uploaded images
   const [uploadedImages, setUploadedImages] = useState<FileList | null>(null);
+  const [selectedTone, setSelectedTone] = useState('');
 
-  // Handler for when the user submits a text prompt
   const handleTextSubmit = (text: string) => {
     console.log('Text submitted:', text);
     setTextPrompt(text);
   };
 
-  // Handler for when the user submits images
   const handleImagesSubmit = (images: FileList | null) => {
     console.log('Images submitted:', images);
     setUploadedImages(images);
+  };
+
+  const handleToneSelect = (tone: string) => {
+    console.log('Tone selected:', tone);
+    setSelectedTone(tone);
   };
 
   return (
@@ -29,6 +30,10 @@ const Home = () => {
         title="AstroClassify" 
         subtitle="Embark on a journey through the cosmos and create your own space tales."
       />
+
+      {/* Integrate the ToneSelection component */}
+      <ToneSelection onToneSelect={handleToneSelect} />
+
       <StoryInput 
         onTextSubmit={handleTextSubmit} 
         onImagesSubmit={handleImagesSubmit} 
@@ -36,6 +41,7 @@ const Home = () => {
       <StoryDisplay 
         textPrompt={textPrompt} 
         uploadedImages={uploadedImages} 
+        selectedTone={selectedTone} // Pass the selected tone to StoryDisplay
       />
     </>
   );
