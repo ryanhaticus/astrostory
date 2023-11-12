@@ -3,17 +3,23 @@ import React, { useState } from "react";
 interface StoryInputProps {
   onTextSubmit: (text: string) => void;
   onImagesSubmit: (images: FileList | null) => void;
+  generating: boolean;
 }
 
 const StoryInput: React.FC<StoryInputProps> = ({
   onTextSubmit,
   onImagesSubmit,
+  generating,
 }) => {
   const [inputType, setInputType] = useState<"text" | "images">("images");
   const [textPrompt, setTextPrompt] = useState("");
   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
 
   const handleSubmit = () => {
+    if (generating) {
+      return;
+    }
+
     if (inputType === "text") {
       onTextSubmit(textPrompt);
     } else {
@@ -64,6 +70,7 @@ const StoryInput: React.FC<StoryInputProps> = ({
                 className="bg-gray-800 block w-full rounded-md border-0 px-3 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 placeholder="I want a story about Jupiter's storms, a beauitufl space station, and a terrifying black hole."
                 defaultValue={""}
+                onChange={(e) => setTextPrompt(e.target.value)}
               />
             </div>
           </div>
@@ -78,10 +85,38 @@ const StoryInput: React.FC<StoryInputProps> = ({
         <button
           type="button"
           onClick={handleSubmit}
-          className="mt-8 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          disabled={generating}
+          className={`flex mt-8 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm ${
+            generating ? "cursor-not-allowed" : "hover:bg-indigo-500"
+          } focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
         >
           Generate story
+          {generating ? (
+            <svg
+              className="animate-spin -ml-1 ml-2 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+          ) : null}
         </button>
+        <span className="mt-2 block text-sm font-medium leading-6 text-gray-300">
+          It can take up to 30 seconds to generate your full story!
+        </span>
       </div>
     </div>
   );

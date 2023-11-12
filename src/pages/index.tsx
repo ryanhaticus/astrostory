@@ -2,29 +2,73 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import StoryInput from "../components/StoryInput";
 import ToneSelection from "../components/ToneSelection";
+import Story from "@/components/Story";
 
 const Home = () => {
-  const [textPrompt, setTextPrompt] = useState("");
-  const [uploadedImages, setUploadedImages] = useState<FileList | null>(null);
-  const [selectedTone, setSelectedTone] = useState("");
+  const [selectedTone, setSelectedTone] = useState("Dark Sci-Fi");
+  const [story, setStory] = useState([]);
+  const [generating, setGenerating] = useState(false);
 
-  const handleTextSubmit = (text: string) => {
-    console.log("Text submitted:", text);
-    setTextPrompt(text);
+  const handleTextSubmit = async (text: string) => {
+    if (!text) {
+      return;
+    }
+
+    setGenerating(true);
+
+    const formData = new FormData();
+
+    formData.append("type", "text");
+
+    formData.append("theme", selectedTone.toLowerCase().replace(/\s+/g, "-"));
+
+    formData.append("text", text);
+
+    const story = await fetch("/api/story", {
+      method: "POST",
+      body: formData,
+    });
+
+    const storyJson = await story.json();
+
+    setStory(storyJson.data);
+    setGenerating(false);
   };
 
-  const handleImagesSubmit = (images: FileList | null) => {
-    console.log("Images submitted:", images);
-    setUploadedImages(images);
+  const handleImagesSubmit = async (images: FileList | null) => {
+    if (!images) {
+      return;
+    }
+
+    setGenerating(true);
+
+    const formData = new FormData();
+
+    Array.from(images).forEach((image) => {
+      formData.append("images", image, image.name);
+    });
+
+    formData.append("type", "image");
+
+    formData.append("theme", selectedTone.toLowerCase().replace(/\s+/g, "-"));
+
+    const story = await fetch("/api/story", {
+      method: "POST",
+      body: formData,
+    });
+
+    const storyJson = await story.json();
+
+    setStory(storyJson.data);
+    setGenerating(false);
   };
 
   const handleToneSelect = (tone: string) => {
-    console.log("Tone selected:", tone);
     setSelectedTone(tone);
   };
 
   return (
-    <div className="min-h-screen relative isolate overflow-hidden bg-gray-900">
+    <div className="mb-16 min-h-screen relative isolate overflow-hidden bg-gray-900">
       <svg
         className="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
         aria-hidden="true"
@@ -77,7 +121,12 @@ const Home = () => {
         <StoryInput
           onTextSubmit={handleTextSubmit}
           onImagesSubmit={handleImagesSubmit}
+          generating={generating}
         />
+
+        <div className="mt-16">
+          <Story story={story} />
+        </div>
       </div>
     </div>
   );
