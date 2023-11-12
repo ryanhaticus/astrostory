@@ -77,7 +77,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
     return;
   }
 
-  let story = '';
+  let story = "";
 
   if (type === "image") {
     const descriptions = await Promise.all(
@@ -204,7 +204,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
             Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           },
           body: JSON.stringify({
-            prompt: paragraph,
+            prompt: `Do not ever write text on an image. Generate an image based on the following paragraph: ${paragraph}`,
             n: 1,
             size: "1024x1024",
           }),
