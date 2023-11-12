@@ -204,7 +204,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
             Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           },
           body: JSON.stringify({
-            prompt: paragraph,
+            prompt: `Generate space-themed images for a story. Use the following paragraph as well: ${paragraph}`,
             n: 1,
             size: "1024x1024",
           }),
