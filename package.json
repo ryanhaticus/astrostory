@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "@types/react-dom": "18.2.15",
     "autoprefixer": "10.4.16",
     "eslint": "8.53.0",
@@ -24,9 +25,9 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/multer": "^1.4.10",
     "@types/node": "20.9.0",
     "@types/react": "18.2.37",
-    "typescript": "5.2.2",
-    "@types/multer": "^1.4.10"
+    "typescript": "5.2.2"
   }
 }

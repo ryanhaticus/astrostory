@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
-import StoryInput from "../components/StoryInput";
-import ToneSelection from "../components/ToneSelection";
+import Header from "@/components/Header";
+import StoryInput from "@/components/StoryInput";
+import ToneSelection from "@/components/ToneSelection";
 import Story from "@/components/Story";
+import Error from "@/components/Error";
 
 const Home = () => {
   const [selectedTone, setSelectedTone] = useState("Dark Sci-Fi");
   const [story, setStory] = useState([]);
   const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleTextSubmit = async (text: string) => {
     if (!text) {
@@ -28,6 +30,12 @@ const Home = () => {
       method: "POST",
       body: formData,
     });
+
+    if (!story.ok) {
+      setGenerating(false);
+      setError(true);
+      return;
+    }
 
     const storyJson = await story.json();
 
@@ -56,6 +64,12 @@ const Home = () => {
       method: "POST",
       body: formData,
     });
+
+    if (!story.ok) {
+      setGenerating(false);
+      setError(true);
+      return;
+    }
 
     const storyJson = await story.json();
 
@@ -115,6 +129,8 @@ const Home = () => {
           title="AstroStory"
           subtitle="Embark on a journey through the cosmos by creating your own space tales."
         />
+
+        {error ? <Error /> : null}
 
         <ToneSelection onToneSelect={handleToneSelect} />
 
