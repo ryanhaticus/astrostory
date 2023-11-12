@@ -98,7 +98,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
                   content: [
                     {
                       type: "text",
-                      text: `Describe the space imagery in a ${theme} theme.`,
+                      text: `Describe the space imagery in a ${theme} theme. If the image is not related to space, make up a description.`,
                     },
                     {
                       type: "image_url",
@@ -111,7 +111,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
                   ],
                 },
               ],
-              max_tokens: 600,
+              max_tokens: 1800,
             }),
           }
         );
