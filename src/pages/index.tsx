@@ -69,8 +69,8 @@ const Home = () => {
       </div>
       <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex flex-col lg:px-8 lg:py-40">
         <Header
-          title="AstroClassify"
-          subtitle="Embark on a journey through the cosmos and create your own space tales."
+          title="AstroStory"
+          subtitle="Embark on a journey through the cosmos by creating your own space tales."
         />
 
         <ToneSelection onToneSelect={handleToneSelect} />
