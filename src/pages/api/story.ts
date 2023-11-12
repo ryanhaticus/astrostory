@@ -77,14 +77,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
     return;
   }
 
-  // use the openai to do the following:
-  // 1. describe each image using gpt-4-vision-preview in the desired tone
-  // 2. generate a story using the provided text from the described images in step 1. separate paragraphs with two new lines.
-  // 3. parse the story into a list of paragraphs
-  // 4. generate an image using dall-e with each paragraph as the prompt
-  // 5. return the generated image
-  // 6. put the story together in the following format:
-  // { image: string; text: string; }[]
+  let story = '';
 
   if (type === "image") {
     const descriptions = await Promise.all(
@@ -160,43 +153,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
     );
 
     const storyJson = await storyResponse.json();
-
-    const story = storyJson.choices[0].message.content as string;
-    const paragraphs = story.split("\n\n");
-
-    const images = await Promise.all(
-      paragraphs.map(async (paragraph) => {
-        const response = await fetch(
-          "https://api.openai.com/v1/images/generations",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-            },
-            body: JSON.stringify({
-              prompt: paragraph,
-              n: 1,
-              size: "1024x1024",
-            }),
-          }
-        );
-
-        const json = await response.json();
-
-        return json.data[0].url;
-      })
-    );
-
-    res.status(200).json({
-      message: "Story generated!",
-      data: images.map((image, index) => ({
-        image,
-        text: paragraphs[index],
-      })),
-    } satisfies Response);
-
-    return;
+    story = storyJson.choices[0].message.content as string;
   }
 
   if (type === "text") {
@@ -231,47 +188,41 @@ handler.post(multerInstance.array("images"), async (req, res) => {
     );
 
     const storyJson = await storyResponse.json();
-
-    const story = storyJson.choices[0].message.content as string;
-    const paragraphs = story.split("\n\n");
-
-    const images = await Promise.all(
-      paragraphs.map(async (paragraph) => {
-        const response = await fetch(
-          "https://api.openai.com/v1/images/generations",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-            },
-            body: JSON.stringify({
-              prompt: paragraph,
-              n: 1,
-              size: "1024x1024",
-            }),
-          }
-        );
-
-        const json = await response.json();
-
-        return json.data[0].url;
-      })
-    );
-
-    res.status(200).json({
-      message: "Story generated!",
-      data: images.map((image, index) => ({
-        image,
-        text: paragraphs[index],
-      })),
-    } satisfies Response);
-
-    return;
+    story = storyJson.choices[0].message.content as string;
   }
 
-  res.status(500).json({
-    message: "A story could not be generated. Please try again later.",
+  const paragraphs = story.split("\n\n");
+
+  const images = await Promise.all(
+    paragraphs.map(async (paragraph) => {
+      const response = await fetch(
+        "https://api.openai.com/v1/images/generations",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          },
+          body: JSON.stringify({
+            prompt: paragraph,
+            n: 1,
+            size: "1024x1024",
+          }),
+        }
+      );
+
+      const json = await response.json();
+
+      return json.data[0].url;
+    })
+  );
+
+  res.status(200).json({
+    message: "Story generated!",
+    data: images.map((image, index) => ({
+      image,
+      text: paragraphs[index],
+    })),
   } satisfies Response);
 });
 
