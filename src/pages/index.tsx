@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import StoryInput from "../components/StoryInput";
-import StoryDisplay from "../components/StoryDisplay";
-import ToneSelection from "../components/ToneSelection"; // Import the ToneSelection component
+import ToneSelection from "../components/ToneSelection";
 
 const Home = () => {
   const [textPrompt, setTextPrompt] = useState("");
@@ -67,7 +66,7 @@ const Home = () => {
           }}
         />
       </div>
-      <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex flex-col lg:px-8 lg:py-40">
+      <div className="max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex flex-col lg:px-8 lg:py-40">
         <Header
           title="AstroStory"
           subtitle="Embark on a journey through the cosmos by creating your own space tales."
@@ -79,9 +78,7 @@ const Home = () => {
           onTextSubmit={handleTextSubmit}
           onImagesSubmit={handleImagesSubmit}
         />
-        <StoryDisplay textPrompt={textPrompt} uploadedImages={uploadedImages} />
       </div>
-      <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32"></div>
     </div>
   );
 };

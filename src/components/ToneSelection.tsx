@@ -1,40 +1,39 @@
 // components/ToneSelection.tsx
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface ToneSelectionProps {
   onToneSelect: (tone: string) => void;
 }
 
 const tones = [
-  'Dark Sci-Fi',
-  'Cosmic Comedy',
-  'Epic Adventure',
-  'Romantic Space Opera',
-  'Cosmic Horror',
-  'Space Fantasy',
-  'Time Travel Paradox',
+  "Dark Sci-Fi",
+  "Cosmic Comedy",
+  "Epic Adventure",
+  "Romantic Space Opera",
+  "Cosmic Horror",
+  "Space Fantasy",
+  "Time Travel Paradox",
 ];
 
 const ToneSelection: React.FC<ToneSelectionProps> = ({ onToneSelect }) => {
   const [selectedTone, setSelectedTone] = useState(tones[0]);
 
   return (
-    <div className="my-8">
-      <label htmlFor="tone-select" className="block text-sm font-medium text-gray-700">Choose a tone for your story:</label>
-      <select
-        id="tone-select"
-        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-        value={selectedTone}
-        onChange={(e) => {
-          const tone = e.target.value;
-          setSelectedTone(tone);
-          onToneSelect(tone);
-        }}
+    <div className="mt-8">
+      <label
+        htmlFor="tone"
+        className="block text-sm font-medium leading-6 text-gray-300"
       >
-        {tones.map((tone, index) => (
-          <option key={index} value={tone}>
-            {tone}
-          </option>
+        Tone
+      </label>
+      <select
+        id="tone"
+        name="tone"
+        className="bg-gray-800 text-white mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 ring-inset ring-gray-700 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        defaultValue={tones[0]}
+      >
+        {tones.map((tone) => (
+          <option key={tone}>{tone}</option>
         ))}
       </select>
     </div>
