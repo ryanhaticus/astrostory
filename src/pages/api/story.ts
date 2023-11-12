@@ -47,7 +47,7 @@ const handler = NextConnect<NextApiRequest, NextApiResponse>({
 
 const requestSchema = z.object({
   type: z.enum(["text", "image"]),
-  tone: z.enum([
+  theme: z.enum([
     "dark-sci-fi",
     "cosmic-comedy",
     "epic-adventure",
@@ -63,7 +63,7 @@ const requestSchema = z.object({
 
 handler.post(multerInstance.array("images"), async (req, res) => {
   const filesArray = req.files as Express.Multer.File[];
-  const { type, tone, text } = requestSchema.parse(req.body);
+  const { type, theme, text } = requestSchema.parse(req.body);
 
   if (!filesArray && type === "image") {
     res
@@ -98,7 +98,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
                   content: [
                     {
                       type: "text",
-                      text: `Describe the space imagery in a ${tone} tone.`,
+                      text: `Describe the space imagery in a ${theme} theme.`,
                     },
                     {
                       type: "image_url",
@@ -138,7 +138,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
               content: [
                 {
                   type: "text",
-                  text: `Write a complete children's story incorporating the following descriptions in a ${tone} tone. Do not include a title. Separate paragraphs with two new lines.`,
+                  text: `Write a complete children's story incorporating the following descriptions in a ${theme} theme. Do not include a title. Separate paragraphs with two new lines.`,
                 },
                 {
                   type: "text",
@@ -173,7 +173,7 @@ handler.post(multerInstance.array("images"), async (req, res) => {
               content: [
                 {
                   type: "text",
-                  text: `Write a complete children's story incorporating the following description in a ${tone} tone. Improve the description as well to fit the ${tone} tone. Do not include a title. Separate paragraphs with two new lines.`,
+                  text: `Write a complete children's story incorporating the following description in a ${theme} theme. Improve the description as well to fit the ${theme} theme. Do not include a title. Separate paragraphs with two new lines.`,
                 },
                 {
                   type: "text",
